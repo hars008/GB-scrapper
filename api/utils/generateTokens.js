@@ -20,6 +20,8 @@ const generateTokens = async (userDoc, ip, fingerPrint,ua) => {
     const tokkn = (type) => ({
       httpOnly: true,
       SameSite: "none",
+      secure: true,
+      domain:'localhost',
       expires: new Date(
         Date.now() + (type == "access" ? 10 * 1000 * 60 : 15* 24 * 1000 * 60 * 60)// 10m : 15d
       ),

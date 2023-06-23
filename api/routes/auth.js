@@ -121,6 +121,8 @@ router.get("/profile/:fingerprint", async (req, res) => {
           .cookie("token", accessToken, {
             httpOnly: true,
             SameSite: "none",
+            secure: true,
+            domain: "localhost",
             expires: new Date(Date.now() + 10 * 1000 * 60),
           })
           .status(200)
