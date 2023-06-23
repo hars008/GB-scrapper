@@ -63,7 +63,7 @@ export default function Home() {
       <div className="flex flex-col items-center justify-center mt-10">
         <div className="flex flex-col items-center justify-center mt-4">
           <h1 className="text-2xl font-bold">Welcome to my website</h1>
-          <h2 className="text-xl font-bold">Let's Begin the Search</h2>
+          <h2 className="text-xl font-bold">Let&apos;s Begin the Search</h2>
         </div>
         <div className="flex flex-col items-center justify-center mt-4">
           <Link href="/dashboard" legacyBehavior>
@@ -73,8 +73,6 @@ export default function Home() {
           </Link>
         </div>
       </div>
-
-
     </>
   );
 }

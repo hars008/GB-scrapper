@@ -31,7 +31,7 @@ const HistoryQuery = () => {
       }
     };
     getHistory();
-  }, [user]);
+  }, [user, id, userId]);
   if (loading) return <div id="preloader" />;
   return (
     <div>

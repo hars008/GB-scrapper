@@ -14,6 +14,7 @@ import {
 import Link from "next/link";
 import axios from "axios";
 import { set } from "mongoose";
+import Image from "next/image";
 
 const Navbar = () => {
   const [visible, setVisible] = useState(false);
@@ -84,9 +85,11 @@ if (loading) return <div className="preloader"/>;
         }}
       >
         <div className="demo-logo-vertical justify-center flex mb-4">
-          <img
+          <Image
             src="https://avatars.githubusercontent.com/u/28140896?s=280&v=4"
             alt="logo"
+            height={160}
+            width={160}
             className="w-40 h-40"
           />
         </div>

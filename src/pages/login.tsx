@@ -8,6 +8,7 @@ import getGoogleOAuthUrl from "@/util/getGoogleUrl";
 import generateBrowserFingerprint from "../util/GenerateFingerprint";
 import ReCAPTCHA from "react-google-recaptcha";
 import { message } from "antd";
+import Image from "next/image";
 
 const LoginSign = () => {
   const router = useRouter();
@@ -181,7 +182,7 @@ const LoginSign = () => {
             Login
           </button>
           <div className="flex gap-2 text-sm sm:text-[16px] justify-center mt-4">
-            <p>Don't have an account?</p>
+            <p>Don&apos;t have an account?</p>
             <Link href="/register" className="text-blue-500 hover:underline">
               Register
             </Link>
@@ -192,7 +193,9 @@ const LoginSign = () => {
         <h1 className="text-3xl font-bold my-4">OR</h1>
         <a href={getGoogleOAuthUrl()}>
           <div className="googleButton items-center border px-4 py-2 rounded-lg shadow-md hover:shadow-lg hover:scale-105 transition duration-200  flex gap-3">
-            <img
+            <Image
+              width={24}
+              height={24}
               className="googleIcon w-6 h-6"
               src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg"
               alt="Google logo"

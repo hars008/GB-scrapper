@@ -44,11 +44,14 @@ app.use(
       "http://localhost:5173",
       "http://localhost:8000",
       "http://localhost:3000",
+      "https://scrappingbackend.onrender.com/",
     ],
     allowedHeaders: ["Content-Type", "x-csrf-token"],
     credentials: true,
+    SameSite: "none",
+
   })
-  );
+);
   app.use(cookieParser());
   app.use(bodyParser.urlencoded({ extended: false }));
   

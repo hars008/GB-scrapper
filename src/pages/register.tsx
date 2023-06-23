@@ -12,6 +12,7 @@ import Link from "next/link";
 import generateBrowserFingerprint from "../util/GenerateFingerprint";
 import getGoogleOAuthUrl from "@/util/getGoogleUrl";
 import ReCAPTCHA from "react-google-recaptcha";
+import Image from "next/image";
 
 interface RegisterPageProps {}
 
@@ -103,7 +104,7 @@ const RegisterPage: React.FC<RegisterPageProps> = () => {
     if (redirect) {
       router.push("/login");
     }
-  }, [redirect]);
+  }, [redirect, router]);
 
   if (loading) return <div id="preloader" />;
 
@@ -112,7 +113,9 @@ const RegisterPage: React.FC<RegisterPageProps> = () => {
       {contextHolder}
       <div className="flex flex-col items-center h-screen">
         <h1 className="text-3xl font-bold">Welcome!!</h1>
-        <p className="text-gray-500">Let's begin by creating your account</p>
+        <p className="text-gray-500">
+          Let&apos;s begin by creating your account
+        </p>
         <form className="w-fit mx-auto mt-4 rounded-2xl border px-10 py-6 bg-gray-100 flex flex-col">
           <label htmlFor="username">Username</label>
           <input
@@ -195,7 +198,9 @@ const RegisterPage: React.FC<RegisterPageProps> = () => {
           <h1 className="text-3xl font-bold my-4">OR</h1>
           <a href={getGoogleOAuthUrl()}>
             <div className="bg-white border border-gray-300 px-4 py-2 rounded-lg shadow-md hover:shadow-lg hover:scale-105 transition duration-200 flex items-center gap-3">
-              <img
+              <Image
+                width={24}
+                height={24}
                 className="w-6 h-6"
                 src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg"
                 alt="Google logo"

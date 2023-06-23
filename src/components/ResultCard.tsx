@@ -20,6 +20,8 @@ const ResultCard = ({results} :any) => {
                     <img
                       src={result.img}
                       alt={result.title}
+                      width={100}
+                      height={100}
                       className="sm:w-11 sm:h-11 w-8 h-8 "
                     />
                   </div>

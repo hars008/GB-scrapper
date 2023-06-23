@@ -12,6 +12,7 @@ import { Layout } from "antd";
 import { useRouter } from "next/router";
 import { UserContext } from "@/context/UserContext";
 import axios from "axios";
+import Image from "next/image";
 
 const { Sider } = Layout;
 
@@ -112,9 +113,12 @@ const Sidebar = () => {
         </div>
         <div className="demo-logo-vertical mb-5">
           <div className="p-1">
-            <img
+            <Image
               src="https://avatars.githubusercontent.com/u/28140896?s=280&v=4"
               alt="logo"
+              width={0}
+              height={0}
+              layout="responsive"
             />
           </div>
           {!collapsed && (

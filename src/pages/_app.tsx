@@ -10,7 +10,7 @@ import { getSocket, connectSocket } from "@/util/Socket";
 import Navbar from "@/components/Navbar";
 const { Header, Content, Footer } = Layout;
 
-axios.defaults.baseURL = "http://localhost:4000";
+axios.defaults.baseURL = process.env.NEXT_PUBLIC_apiBaseUrl;
 axios.defaults.withCredentials = true;
 
 export default function App({ Component, pageProps }: AppProps) {

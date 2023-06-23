@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Link from "next/link";
 import {message} from "antd";
+import Image from "next/image";
 
 interface propHistory {
   result: any;
@@ -46,8 +47,10 @@ const HistoryCard = ({ result, results, setResults }: propHistory) => {
         >
           <div className="flex  items-center w-full overflow-hidden  gap-4">
             <div className=" items-center h-6 w-6 sm:h-8 sm:w-8 justify-center flex ">
-              <img
-                className="sm:w-8 sm:h-8 h-6 h-6"
+              <Image
+                width={8}
+                height={8}
+                className="sm:w-8 sm:h-8 h-6"
                 src={
                   result.searchedFrom === "Google"
                     ? "https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/2008px-Google_%22G%22_Logo.svg.png"

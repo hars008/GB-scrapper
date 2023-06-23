@@ -32,7 +32,7 @@ const Profile = () => {
     };
 
     fetchSessions();
-  }, [user]);
+  }, [user, router, ready]);
 
   if (loading || !ready) return <div id="preloader" />;
 
