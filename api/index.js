@@ -31,15 +31,13 @@ const csrfProtection = (req, res, next) => {
   next();
 };
 
-app.use((req, res, next) => {
-  res.set(
-    "Access-Control-Allow-Headers",
-    "Content-Type, Authorization, X-Csrf-Token"
-  );
-  res.setHeader("Access-Control-Allow-Credentials", "true");
-  res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
-  next();
-});
+// app.use((req, res, next) => {
+//   res.set(
+//     "Access-Control-Allow-Headers",
+//     "Content-Type, Authorization, X-Csrf-Token"
+//   );
+//   next();
+// });
 
 app.use(requestIp.mw());
 
@@ -51,8 +49,9 @@ app.use(
       "http://localhost:8000",
       "http://localhost:3000",
       "https://6496fb42e163ac674de8f5a7--jazzy-tulumba-a1e579.netlify.app",
+      "https://jazzy-tulumba-a1e579.netlify.app",
     ],
-    allowedHeaders: ["Content-Type", "x-csrf-token"],
+    allowedHeaders: ["Content-Type", "Authorization", "x-csrf-token"],
     credentials: true,
     SameSite: "none",
   })
