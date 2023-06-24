@@ -32,6 +32,8 @@ app.use((req, res, next) => {
     "Access-Control-Allow-Headers",
     "Content-Type, Authorization, X-Csrf-Token"
   );
+    res.setHeader("Access-Control-Allow-Credentials", "true");
+     res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
   next();
 });
 
@@ -44,13 +46,10 @@ app.use(
       "http://localhost:5173",
       "http://localhost:8000",
       "http://localhost:3000",
-      "https://scrappingbackend.onrender.com/",
     ],
     allowedHeaders: ["Content-Type", "x-csrf-token"],
     credentials: true,
     SameSite: "none",
-  
-
   })
 );
   app.use(cookieParser());

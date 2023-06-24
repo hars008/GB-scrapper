@@ -13,7 +13,6 @@ import {
 } from "@ant-design/icons";
 import Link from "next/link";
 import axios from "axios";
-import { set } from "mongoose";
 import Image from "next/image";
 
 const Navbar = () => {

@@ -20,7 +20,7 @@ const generateTokens = async (userDoc, ip, fingerPrint, ua) => {
     const tokkn = (type) => ({
       httpOnly: true,
       SameSite: "none",
-      secure: true,
+      secure: false,
       domain: ".localhost",
       path: "/",
       expires: new Date(
