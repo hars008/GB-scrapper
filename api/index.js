@@ -49,6 +49,7 @@ app.use(
     allowedHeaders: ["Content-Type", "x-csrf-token"],
     credentials: true,
     SameSite: "none",
+  
 
   })
 );

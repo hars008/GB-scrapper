@@ -122,7 +122,8 @@ router.get("/profile/:fingerprint", async (req, res) => {
             httpOnly: true,
             SameSite: "none",
             secure: true,
-            domain: "localhost",
+            domain: ".localhost",
+            path: "/",
             expires: new Date(Date.now() + 10 * 1000 * 60),
           })
           .status(200)

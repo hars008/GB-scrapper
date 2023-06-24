@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken");
 const UserToken = require("../models/UserToken");
 
-const generateTokens = async (userDoc, ip, fingerPrint,ua) => {
+const generateTokens = async (userDoc, ip, fingerPrint, ua) => {
   try {
     const payload = {
       username: userDoc.username,
@@ -21,9 +21,11 @@ const generateTokens = async (userDoc, ip, fingerPrint,ua) => {
       httpOnly: true,
       SameSite: "none",
       secure: true,
-      domain:'localhost',
+      domain: ".localhost",
+      path: "/",
       expires: new Date(
-        Date.now() + (type == "access" ? 10 * 1000 * 60 : 15* 24 * 1000 * 60 * 60)// 10m : 15d
+        Date.now() +
+          (type == "access" ? 10 * 1000 * 60 : 15 * 24 * 1000 * 60 * 60) // 10m : 15d
       ),
     });
     await UserToken.create({
@@ -33,7 +35,7 @@ const generateTokens = async (userDoc, ip, fingerPrint,ua) => {
       fingerPrint,
       ua: ua,
     });
-    return Promise.resolve({ accessToken, refreshToken,tokkn });
+    return Promise.resolve({ accessToken, refreshToken, tokkn });
   } catch (err) {
     return Promise.reject(err);
   }
