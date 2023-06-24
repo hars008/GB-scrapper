@@ -53,7 +53,6 @@ app.use(
     ],
     allowedHeaders: ["Content-Type", "Authorization", "x-csrf-token"],
     credentials: true,
-    sameSite: "none",
   })
 );
 app.use(cookieParser());

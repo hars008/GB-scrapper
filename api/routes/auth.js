@@ -122,7 +122,7 @@ router.get("/profile/:fingerprint", async (req, res) => {
             httpOnly: true,
             sameSite: "none",
             secure: true,
-            domain: ".netlify.app",
+            domain: "jazzy-tulumba-a1e579.netlify.app",
             path: "/",
             expires: new Date(Date.now() + 10 * 1000 * 60),
           })
