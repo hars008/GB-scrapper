@@ -68,13 +68,15 @@ router.get("/google/", async (req, res) => {
       res
         .cookie("token", accessToken, {
           httpOnly: true,
-          SameSite: "none",
+          sameSite: "none",
+          secure: true,
           expires: new Date(Date.now() + 1 * 1000 * 60),
         })
 
         .cookie("refreshToken", refreshToken, {
           httpOnly: true,
-          SameSite: "none",
+          sameSite: "none",
+          secure: true,
           expires: new Date(Date.now() + 10 * 1000 * 60 * 60 * 24 * 30), 
         })
         .redirect("http://localhost:3000");

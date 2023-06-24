@@ -120,7 +120,7 @@ router.get("/profile/:fingerprint", async (req, res) => {
       : res
           .cookie("token", accessToken, {
             httpOnly: true,
-            SameSite: "none",
+            sameSite: "none",
             secure: true,
             domain: ".netlify.app",
             path: "/",
