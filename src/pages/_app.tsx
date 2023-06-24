@@ -6,11 +6,10 @@ import PageHeader from "@/components/PageHeader";
 import React from "react";
 import axios from "axios";
 import { UserContextProvider } from "@/context/UserContext";
-import { getSocket, connectSocket } from "@/util/Socket";
-import Navbar from "@/components/Navbar";
+
 const { Header, Content, Footer } = Layout;
 
-axios.defaults.baseURL = process.env.NEXT_PUBLIC_apiBaseUrl;
+axios.defaults.baseURL = "https://scrappingbackend.onrender.com";
 axios.defaults.withCredentials = true;
 
 export default function App({ Component, pageProps }: AppProps) {
@@ -21,9 +20,8 @@ export default function App({ Component, pageProps }: AppProps) {
     <>
       <UserContextProvider>
         <Layout>
-            <Sidebar />
+          <Sidebar />
           <Layout>
-           
             <Header
               style={{ padding: 0, background: colorBgContainer }}
               className="sticky relative top-0"
