@@ -86,7 +86,7 @@ router.post("/register", async (req, res) => {
     if (!captchaOk) {
       return res.status(401).json("Invalid Captcha");
     }
-    
+
     const user = await User.findOne({ email: email });
     if (user)
       return res.status(422).json("You are Already Registered, Please Login!!");
@@ -122,7 +122,7 @@ router.get("/profile/:fingerprint", async (req, res) => {
             httpOnly: true,
             SameSite: "none",
             secure: true,
-            domain: ".localhost",
+            domain: ".netlify.app",
             path: "/",
             expires: new Date(Date.now() + 10 * 1000 * 60),
           })
