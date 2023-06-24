@@ -20,7 +20,7 @@ const generateTokens = async (userDoc, ip, fingerPrint, ua) => {
     const tokkn = (type) => ({
       httpOnly: true,
       SameSite: "none",
-      secure: false,
+      secure: true,
       domain: ".netlify.app",
       path: "/",
       expires: new Date(
