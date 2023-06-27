@@ -21,8 +21,8 @@ const generateTokens = async (userDoc, ip, fingerPrint, ua) => {
       httpOnly: true,
       sameSite: "none",
       secure: true,
-      domain: "jazzy-tulumba-a1e579.netlify.app",
-      path: "/",
+      // domain: "jazzy-tulumba-a1e579.netlify.app",
+      // path: "/",
       expires: new Date(
         Date.now() +
           (type == "access" ? 10 * 1000 * 60 : 15 * 24 * 1000 * 60 * 60) // 10m : 15d

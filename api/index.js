@@ -14,21 +14,41 @@ const sessionRouter = require("./routes/sessions");
 const mySocket = require("./utils/sockets");
 const bodyParser = require("body-parser");
 const Tokens = require("csrf");
+const CsrfToken = require("./models/CsrfToken");
+const mongoose = require("mongoose");
+mongoose.connect(process.env.MONGO_URL);
+
+app.use(requestIp.mw());
 
 let globl_csrf_token;
 var csrf_tokens = new Tokens();
 var secret = csrf_tokens.secretSync();
-const csrfProtection = (req, res, next) => {
-  var token = req.body._csrf || req.query._csrf || req.headers["x-csrf-token"];
-  console.log("token", token);
-  if (
-    !token ||
-    !csrf_tokens.verify(secret, token) ||
-    token != globl_csrf_token
-  ) {
-    return res.status(403).send("unauthorized");
+
+const csrfProtection = async (req, res, next) => {
+  try {
+    const token =
+      req.body._csrf || req.query._csrf || req.headers["x-csrf-token"];
+    console.log("token", token);
+    const IP = req.clientIp;
+
+    if (!token) {
+      return res.status(403).send("unauthorized");
+    }
+
+    const doc = await CsrfToken.findOne({ IP });
+    if (!doc) {
+      return res.status(403).send("unauthorized");
+    }
+
+    if (!csrf_tokens.verify(secret, token) || token != doc.csrfToken) {
+      return res.status(403).send("unauthorized");
+    }
+
+    next();
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ message: "Internal server error" });
   }
-  next();
 };
 
 // app.use((req, res, next) => {
@@ -38,8 +58,6 @@ const csrfProtection = (req, res, next) => {
 //   );
 //   next();
 // });
-
-app.use(requestIp.mw());
 
 app.use(express.json());
 app.use(
@@ -51,18 +69,48 @@ app.use(
       "https://6496fb42e163ac674de8f5a7--jazzy-tulumba-a1e579.netlify.app",
       "https://jazzy-tulumba-a1e579.netlify.app",
     ],
-    allowedHeaders: ["Content-Type", "Authorization", "x-csrf-token"],
+    allowedHeaders: [
+      "Content-Type",
+      "Authorization",
+      "x-csrf-token",
+      "x-fingerprint",
+    ],
     credentials: true,
   })
 );
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-app.get("/csrf-token", function (req, res) {
+app.post("/csrf-token", function (req, res) {
   var newToken = csrf_tokens.create(secret);
-  console.log("new", newToken);
-  globl_csrf_token = newToken;
-  res.json({ csrfToken: newToken });
+  const IP = req.clientIp;
+  CsrfToken.findOne({ IP: IP })
+    .then((token) => {
+      if (token) {
+        token.csrfToken = newToken;
+        return token.save();
+      } else {
+        return CsrfToken.create({
+          IP: IP,
+          csrfToken: newToken,
+        });
+      }
+    })
+    .then(() => {
+      res.json({ csrfToken: newToken });
+    })
+    .catch((error) => {
+      if (error.code === 11000) {
+        // Duplicate key error
+        // Handle the error gracefully (e.g., log the error or send an appropriate response)
+        console.log("Duplicate key error:", error);
+        res.status(500).json({ error: "Duplicate key error" });
+      } else {
+        // Other errors
+        console.log("Error:", error);
+        res.status(500).json({ error: "Internal server error" });
+      }
+    });
 });
 
 app.use("/authentication", csrfProtection, authRouter);

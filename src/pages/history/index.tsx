@@ -46,7 +46,7 @@ const HistoryPage = () => {
     };
 
       fetchHistory();
-  }, [user, router, ready]);
+  }, [user]);
 
   if (!ready || loading) return <div id="preloader" />;
   

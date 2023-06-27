@@ -1,4 +1,4 @@
-import React from "react";
+import React, { use, useEffect } from "react";
 import { useState, useContext } from "react";
 import { UserContext } from "@/context/UserContext";
 import { useRouter } from "next/router";
@@ -12,25 +12,24 @@ const Dashboard = () => {
   const [results, setResults] = useState([] as any);
   const [loading, setLoading] = useState(false);
   const [redirect, setRedirect] = useState(false);
-  const { user, ready, setUser,token } = useContext(UserContext);
+  const { user, ready, setUser, token, refreshToken } = useContext(UserContext);
   const [messageApi, contextHolder] = message.useMessage();
 
-  if (!ready) {
-    return <div id="preloader" />;
-  }
-  
-  if (ready && !user && !redirect) {
-    router.push("/login");
-  }
+  useEffect(() => {
+    if (!ready) return;
+    if (ready && !user) {
+      router.push("/login");
+    }
+  }, [user]);
   let userId: string;
   if (user) {
     userId = user.id;
   }
 
   let socket = getSocket();
-  if (!socket) {
-    socket=   connectSocket(token);
-  }
+  // if (!socket) {
+  //   socket = connectSocket(token, refreshToken);
+  // }
 
   console.log("user: ", user, ready, redirect);
 
@@ -47,7 +46,6 @@ const Dashboard = () => {
   const handleBSubmit = async (e: any) => {
     e.preventDefault();
     if (!query) {
-
       alert("Please enter a query");
       message.error("Please enter a query");
       return;
@@ -58,27 +56,22 @@ const Dashboard = () => {
 
     setLoading(true);
     try {
-      if(!socket) {
-       socket= connectSocket(token);
-      };
+      if (!socket) {
+        socket = connectSocket(token, refreshToken);
+      }
       socket.emit("Bsearch", { userId, query, fingerPrint });
       socket.on("Bsearchres", (data: any) => {
         console.log("data: ", data);
         setResults(data);
         setLoading(false);
-        
       });
     } catch (error) {
       console.error("Error: ", error);
-    } finally {
-      // setLoading(false);
     }
   };
   const handleGSubmit = async (e: any) => {
     e.preventDefault();
     if (!query) {
-      // alert("Please enter a user id");
-      // alert("Please enter a query");
       message.error("Please enter a query");
       return;
     }
@@ -87,6 +80,9 @@ const Dashboard = () => {
     console.log("fingerPrint: ", fingerPrint);
     setLoading(true);
     try {
+       if (!socket) {
+         socket = connectSocket(token, refreshToken);
+       }
       socket.emit("Gsearch", { userId, query, fingerPrint });
       socket.on("Gsearchres", (data: any) => {
         console.log("data: ", data);
@@ -96,14 +92,16 @@ const Dashboard = () => {
     } catch (error) {
       console.error("Error: ", error);
       setLoading(false);
-    } 
+    }
   };
-
-  if(loading) return <div id="preloader" />;
+  if (!ready || loading) {
+    return <div id="preloader" />;
+  }
+  // if(loading) return <div id="preloader" />;
 
   return (
     <>
-    {contextHolder}
+      {contextHolder}
       <div className="flex flex-col items-center justify-center mt-10 ">
         <h1 className="text-3xl font-bold">Search</h1>
         <p className="text-gray-500">Type your Query</p>
@@ -170,8 +168,7 @@ const Dashboard = () => {
                         alt={result.title}
                         width={100}
                         height={100}
-                        className="sm:w-11 sm:h-11 w-8 h-8 "
-
+                        className="sm:w-11 sm:h-11 w-8 h-8"
                       />
                     </div>
                     <div className="flex flex-col w-full overflow-hidden">

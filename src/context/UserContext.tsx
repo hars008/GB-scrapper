@@ -44,9 +44,9 @@ export function UserContextProvider({
       try {
         const fingerPrint = await generateBrowserFingerprint();
         console.log("fingerPrint: ", fingerPrint);
-        const csrfToken = await axios.get("/csrf-token", {
-          withCredentials: true,
-        });
+        axios.defaults.headers["X-Fingerprint"] = fingerPrint;
+        const csrfToken = await axios.post('/csrf-token');
+        console.log("csrfToken: ", csrfToken);
         axios.defaults.headers["X-CSRF-Token"] = csrfToken.data.csrfToken;
         setCsrfToken(csrfToken.data.csrfToken);
         const response = await axios.get(
@@ -58,7 +58,7 @@ export function UserContextProvider({
         setRefreshToken(response.data.refreshToken);
         const socket = getSocket();
         if (!socket) {
-          connectSocket(response.data.token);
+          connectSocket(response.data.token, response.data.refreshToken);
         }
       } catch (error) {
         console.error("Error: ", error);

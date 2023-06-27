@@ -9,7 +9,9 @@ import { UserContextProvider } from "@/context/UserContext";
 
 const { Header, Content, Footer } = Layout;
 
-axios.defaults.baseURL = "https://scrappingbackend.onrender.com";
+// axios.defaults.baseURL = "https://scrappingbackend.onrender.com";
+axios.defaults.baseURL = "http://localhost:4000";
+
 axios.defaults.withCredentials = true;
 
 export default function App({ Component, pageProps }: AppProps) {

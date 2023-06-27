@@ -8,7 +8,7 @@ const verifyAuthRefreshToken = async (refreshToken, token, ip, fingerprint) => {
     if (!refreshToken) {
       return Promise.reject({
         status: 401,
-        message: "You are Not Logged In!!",
+        message: "Please Login !!",
       });
     } else {
       if (token) {
