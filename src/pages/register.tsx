@@ -111,6 +111,7 @@ const RegisterPage: React.FC<RegisterPageProps> = () => {
   return (
     <>
       {contextHolder}
+      
       <div className="flex flex-col items-center h-screen">
         <h1 className="text-3xl font-bold">Welcome!!</h1>
         <p className="text-gray-500">

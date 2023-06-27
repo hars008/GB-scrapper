@@ -16,8 +16,7 @@ const LoginSign = () => {
   const [password, setPassword] = useState("12345678");
   const [loading, setLoading] = useState(false);
   const [seePassword, setSeePassword] = useState(false);
-  const { setUser, setReady, setToken, ready } =
-    useContext(UserContext);
+  const { setUser, setReady, setToken, ready } = useContext(UserContext);
   const reRef = useRef<ReCAPTCHA>(null);
   // const reRef = createRef<ReCAPTCHA>();
   // const recaptchaRef = createRef<ReCAPTCHA>();
@@ -27,7 +26,7 @@ const LoginSign = () => {
     e.preventDefault();
     setLoading(true);
     const captchatoken = await reRef.current?.getValue();
-    if(!captchatoken){
+    if (!captchatoken) {
       message.error("Please verify captcha");
       setLoading(false);
       return;
@@ -132,7 +131,9 @@ const LoginSign = () => {
             />
             <div
               className="text-sm sm:text-[16px] text-gray-500 hover:underline"
-              onClick={() => setSeePassword(!seePassword)}
+              onClick={() => {
+                setSeePassword(!seePassword);
+              }}
             >
               {seePassword ? (
                 <svg
