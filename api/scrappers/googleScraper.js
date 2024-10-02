@@ -2,8 +2,8 @@ const puppeteer = require("puppeteer-extra");
 const StealthPlugin = require("puppeteer-extra-plugin-stealth");
 puppeteer.use(StealthPlugin());
 
-// const delay = (milliseconds) =>
-//   new Promise((resolve) => setTimeout(resolve, milliseconds));
+const delay = (milliseconds) =>
+  new Promise((resolve) => setTimeout(resolve, milliseconds));
 
 async function scrapeGoogle(searchQuery, depth) {
   let browser;
@@ -19,8 +19,8 @@ async function scrapeGoogle(searchQuery, depth) {
         ? request.continue()
         : request.abort();
     });
-    // await delay(15000);
-    await page.goto(`https://www.google.com/search?q=${searchQuery}&num=100`, {
+    await delay(15000);
+    await page.goto(`https://www.google.com/search?q=${searchQuery}&num=10`, {
       waitUntil: "domcontentloaded",
     });
     const results = [];

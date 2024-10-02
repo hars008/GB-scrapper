@@ -14,7 +14,7 @@ const verifyToken =async (req, res, next) => {
         httpOnly: true,
         sameSite: "none",
         secure: process.env.NODE_ENV !== "development",
-        maxAge: 1000 * 60 * 10, 
+        maxAge: 1000 * 60 * 10,  //10 minutes
       });
     }
     req.user = decoded;

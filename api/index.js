@@ -118,7 +118,7 @@ app.use("/authentication", csrfProtection, authRouter);
 app.use("/internalScrapping", internalScrappingRouter);
 app.use("/api/oauth", googleOAuthRouter);
 app.use("/scrapping", (verifyToken, csrfProtection), scrappingRouter);
-app.use("/services", (verifyToken, csrfProtection), serviceRouter);
+app.use("/services", serviceRouter);
 app.use("/sessions", (verifyToken, csrfProtection), sessionRouter);
 
 const server = app.listen(4000);

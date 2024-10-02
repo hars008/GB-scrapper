@@ -58,7 +58,7 @@ async function scrapeBing(searchQuery, depth) {
             });
           }
         });
-
+        console.log(searchResults);
         return searchResults;
       });
 

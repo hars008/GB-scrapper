@@ -14,7 +14,7 @@ const verifyRefreshToken = async (refreshToken, ip,fingerPrint) => {
     if (userToken.IP !== ip) {
         return Promise.reject({
           status: 401,
-          message: "Device is changed!! please Login again",
+          message: "Device ip is changed!! please Login again",
         });
     }
     

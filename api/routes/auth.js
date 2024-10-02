@@ -10,6 +10,7 @@ const UserToken = require("../models/UserToken");
 const verifyAuthRefreshToken = require("../middleware/jwtRefreshAuth");
 const uaParser = require("ua-parser-js");
 const verifyCaptcha = require("../utils/verifyCaptcha");
+const OTP = require("../models/Otp");
 const bcryptSalt = bcrypt.genSaltSync(12);
 
 router.use(async (req, res, next) => {
@@ -79,7 +80,19 @@ router.post("/login", async (req, res) => {
 });
 
 router.post("/register", async (req, res) => {
-  const { username, email, password, captchaToken } = req.body;
+  const { username, email, password, captchaToken, otp } = req.body;
+  console.log(req.body);
+  const verifyOtp = async (email,otp) => {
+    const otpDoc = await OTP.findOne({ email: email });
+    if (otpDoc) {
+      if (otpDoc.otp === otp) {
+        console.log("OTP Verified");
+        return true;
+      }
+    }
+    console.log("Invalid OTP", otpDoc, otp);
+    return false;
+  }
 
   try {
     const captchaOk = await verifyCaptcha(captchaToken);
@@ -90,6 +103,11 @@ router.post("/register", async (req, res) => {
     const user = await User.findOne({ email: email });
     if (user)
       return res.status(422).json("You are Already Registered, Please Login!!");
+
+    const otpVerified = await verifyOtp(email,otp);
+    if (!otpVerified) {
+      return res.status(401).json("Invalid OTP");
+    }
 
     const userDoc = await User.create({
       username: username,
