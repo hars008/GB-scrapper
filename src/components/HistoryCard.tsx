@@ -16,7 +16,7 @@ const HistoryCard = ({ result, results, setResults }: propHistory) => {
     setLoading(true);
     try {
       const response = await axios.delete("/scrapping/history/" + id);
-      console.log("response: ", response.data);
+      // console.log("response: ", response.data);
       setResults(results.filter((result: any) => result._id !== id));
       message.success("Deleted Successfully!!");
     } catch (error) {
@@ -47,13 +47,13 @@ const HistoryCard = ({ result, results, setResults }: propHistory) => {
           <div className="flex  items-center w-full overflow-hidden  gap-4">
             <div className=" items-center h-6 w-6 sm:h-8 sm:w-8 justify-center flex ">
               <img
-                width={8}
-                height={8}
+                width={10}
+                height={10}
                 className="sm:w-8 sm:h-8 h-6"
                 src={
                   result.searchedFrom === "Google"
-                    ? "https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/2008px-Google_%22G%22_Logo.svg.png"
-                    : "https://seeklogo.com/images/B/bing-logo-708D786F19-seeklogo.com.png"
+                    ? "/images/other/google.webp"
+                    : "/images/other/bing.png"
                 }
                 alt={result.searchedFrom === "Google" ? "Google" : "Bing"}
               />

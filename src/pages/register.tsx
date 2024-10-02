@@ -24,6 +24,7 @@ const RegisterPage: React.FC<RegisterPageProps> = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [OTP, setOTP] = useState("");
   const [redirect, setRedirect] = useState(false);
   const [passwordError, setPasswordError] = useState("");
   const [confirmPasswordError, setConfirmPasswordError] = useState("");
@@ -58,6 +59,7 @@ const RegisterPage: React.FC<RegisterPageProps> = () => {
           password,
           fingerPrint,
           captchaToken: captchatoken,
+          otp: OTP,
         });
 
         message.success("Registration successful!");
@@ -74,6 +76,24 @@ const RegisterPage: React.FC<RegisterPageProps> = () => {
     }
   };
 
+  const sendOtp = async (e: FormEvent) => {
+
+    e.preventDefault();
+    if(!email){
+      message.error("Please enter email");
+      return;
+    }
+    try{
+      const response = await axios.post("/services/send-otp", {
+        email,
+      });
+      // console.log(response);
+      message.success("OTP sent successfully!");
+    }
+    catch(error){
+      message.error("OTP failed to send! Please try again.");
+    }
+  }
   const handleValidation = () => {
     const validationRules: [RegExp, string][] = [
       [/(?=.*?[A-Z])/, "At least one Uppercase"],
@@ -173,6 +193,28 @@ const RegisterPage: React.FC<RegisterPageProps> = () => {
             <p className="text-red-500">{confirmPasswordError}</p>
           )}
 
+        <label htmlFor = "OTP">OTP</label>
+        <div>
+
+        <input
+          className="w-full border-2 border-gray-300 my-1 py-2 px-3 rounded-2xl"
+          type="text"
+          id="OTP"
+          name="OTP"
+          value={OTP}
+          onChange={(e: ChangeEvent<HTMLInputElement>) =>
+            setOTP(e.target.value)
+          }
+          />
+          {/* send otp */}
+          <button
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full mt-2"
+          onClick={sendOtp}
+          >
+          Send OTP
+          </button>
+          </div>
+
           <ReCAPTCHA
             ref={reRef}
             sitekey="6LeSVromAAAAAILFwfqWxlwwDpfxQyurWRpx0S-b"
@@ -202,8 +244,8 @@ const RegisterPage: React.FC<RegisterPageProps> = () => {
               <Image
                 width={24}
                 height={24}
-                className="w-6 h-6"
-                src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg"
+                className="w-10 h-10"
+                src="/images/other/google.webp"
                 alt="Google logo"
               />
               <span>Continue with Google</span>

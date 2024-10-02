@@ -13,6 +13,7 @@ export const UserContext = createContext<{
   csrfToken: string | null;
   setCsrfToken: any;
   refreshToken: string | null;
+  fetchUserData: any;
 }>({
   user: null,
   setUser: () => {},
@@ -23,7 +24,7 @@ export const UserContext = createContext<{
   csrfToken: null,
   setCsrfToken: () => {},
   refreshToken: null,
-
+  fetchUserData: () => {},
 });
 
 interface UserContextProviderProps {
@@ -38,34 +39,61 @@ export function UserContextProvider({
   const [token, setToken] = useState<string | null>(null);
   const [csrfToken, setCsrfToken] = useState<string | null>(null);
   const [refreshToken, setRefreshToken] = useState<string | null>(null);
+  const fetchUserData = async () => {
+    try {
+      const fingerPrint = await generateBrowserFingerprint();
+      // console.log("fingerPrint: ", fingerPrint);
+      axios.defaults.headers["X-Fingerprint"] = fingerPrint;
+      const csrfToken = await axios.post("/csrf-token");
+      // console.log("csrfToken: ", csrfToken);
+      axios.defaults.headers["X-CSRF-Token"] = csrfToken.data.csrfToken;
+      setCsrfToken(csrfToken.data.csrfToken);
+      const response = await axios.get(
+        `/authentication/profile/${fingerPrint}`
+      );
+      // console.log("response: ", response);
+      setUser(response.data.decoded);
+      setToken(response.data.token);
+      setRefreshToken(response.data.refreshToken);
 
-  useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const fingerPrint = await generateBrowserFingerprint();
-        console.log("fingerPrint: ", fingerPrint);
-        axios.defaults.headers["X-Fingerprint"] = fingerPrint;
-        const csrfToken = await axios.post('/csrf-token');
-        console.log("csrfToken: ", csrfToken);
-        axios.defaults.headers["X-CSRF-Token"] = csrfToken.data.csrfToken;
-        setCsrfToken(csrfToken.data.csrfToken);
-        const response = await axios.get(
-          `/authentication/profile/${fingerPrint}`
-        );
-        console.log("response: ", response);
-        setUser(response.data.decoded);
-        setToken(response.data.token);
-        setRefreshToken(response.data.refreshToken);
-        const socket = getSocket();
-        if (!socket) {
-          connectSocket(response.data.token, response.data.refreshToken);
-        }
-      } catch (error) {
-        console.error("Error: ", error);
-      } finally {
-        setReady(true);
+      const socket = getSocket();
+      if (!socket) {
+        connectSocket(response.data.token, response.data.refreshToken);
       }
-    };
+    } catch (error) {
+      console.error("Error: ", error);
+    } finally {
+      setReady(true);
+    }
+  };
+  useEffect(() => {
+    // const fetchUserData = async () => {
+    //   try {
+    //     const fingerPrint = await generateBrowserFingerprint();
+    //     console.log("fingerPrint: ", fingerPrint);
+    //     axios.defaults.headers["X-Fingerprint"] = fingerPrint;
+    //     const csrfToken = await axios.post('/csrf-token');
+    //     console.log("csrfToken: ", csrfToken);
+    //     axios.defaults.headers["X-CSRF-Token"] = csrfToken.data.csrfToken;
+    //     setCsrfToken(csrfToken.data.csrfToken);
+    //     const response = await axios.get(
+    //       `/authentication/profile/${fingerPrint}`
+    //     );
+    //     console.log("response: ", response);
+    //     setUser(response.data.decoded);
+    //     setToken(response.data.token);
+    //     setRefreshToken(response.data.refreshToken);
+
+    //     const socket = getSocket();
+    //     if (!socket) {
+    //       connectSocket(response.data.token, response.data.refreshToken);
+    //     }
+    //   } catch (error) {
+    //     console.error("Error: ", error);
+    //   } finally {
+    //     setReady(true);
+    //   }
+    // };
 
     fetchUserData();
   }, []);
@@ -80,6 +108,7 @@ export function UserContextProvider({
     csrfToken,
     setCsrfToken,
     refreshToken,
+    fetchUserData,
   };
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;

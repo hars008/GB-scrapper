@@ -6,7 +6,7 @@ import React, { useContext, useEffect, useState } from "react";
 
 const Profile = () => {
   const router = useRouter();
-  const { user, ready, token, refreshToken } = useContext(UserContext);
+  const { user, ready, token, refreshToken,setUser } = useContext(UserContext);
   const [loading, setLoading] = useState(false);
   const [activeSessions, setActiveSessions] = useState([]);
 
@@ -22,9 +22,13 @@ const Profile = () => {
         const userSessions = await axios.get(
           `sessions/all-sessions/${user?.id || user?._id}`
         );
-        console.log(userSessions.data);
+        // console.log(userSessions.data);
         setActiveSessions(userSessions.data.sessionsDoc);
-      } catch (error) {
+      } catch (error: any) {
+        if (error.response.status < 500) {
+          setUser(null);
+          // router.push("/login");
+        }
         console.error("Error: ", error);
       } finally {
         setLoading(false);
@@ -37,7 +41,7 @@ const Profile = () => {
   if (loading || !ready) return <div id="preloader" />;
 
   const checkCurrent = (sessionToken: any) => {
-    console.log("sessionToken: ", sessionToken, " ", token);
+    // console.log("sessionToken: ", sessionToken, " ", refreshToken);
     if (sessionToken === refreshToken) {
       return true;
     }

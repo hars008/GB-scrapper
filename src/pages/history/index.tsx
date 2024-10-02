@@ -24,7 +24,7 @@ const HistoryPage = () => {
   const [fromDate, setFromDate] = useState("");
   const [toDate, setToDate] = useState("");
 
-  const { user, ready } = useContext(UserContext);
+  const { user, ready,setUser } = useContext(UserContext);
 
   useEffect(() => {
     
@@ -38,7 +38,11 @@ const HistoryPage = () => {
           `/scrapping/history/${user?.id || user?._id}`
         );
         setResults(data);
-      } catch (error) {
+      } catch (error: any) {
+        if(error.response.status < 500){
+          setUser(null);
+          router.push("/login");
+        }
         console.error("Error: ", error);
       } finally {
         setLoading(false);

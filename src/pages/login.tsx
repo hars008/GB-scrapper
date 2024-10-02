@@ -16,11 +16,19 @@ const LoginSign = () => {
   const [password, setPassword] = useState("12345678");
   const [loading, setLoading] = useState(false);
   const [seePassword, setSeePassword] = useState(false);
-  const { setUser, setReady, setToken, ready } = useContext(UserContext);
+  const { setUser, setReady, setToken, ready, user, fetchUserData } =
+    useContext(UserContext);
   const reRef = useRef<ReCAPTCHA>(null);
   // const reRef = createRef<ReCAPTCHA>();
   // const recaptchaRef = createRef<ReCAPTCHA>();
   const [messageApi, contextHolder] = message.useMessage();
+
+  useEffect(() => {
+    if (!ready) return;
+    if (ready && user) {
+      router.push("/");
+    }
+  }, [user]);
 
   async function loginUser(e: any) {
     e.preventDefault();
@@ -56,6 +64,7 @@ const LoginSign = () => {
       setReady(true);
       message.success("Login Successfull");
       router.push("/");
+      fetchUserData();
     } catch (e) {
       alert("Login failed");
     } finally {
@@ -197,8 +206,8 @@ const LoginSign = () => {
             <Image
               width={24}
               height={24}
-              className="googleIcon w-6 h-6"
-              src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg"
+              className="googleIcon w-10 h-10"
+              src="/images/other/google.webp"
               alt="Google logo"
             />
             <span>Continue with Google</span>

@@ -31,7 +31,7 @@ const Dashboard = () => {
   //   socket = connectSocket(token, refreshToken);
   // }
 
-  console.log("user: ", user, ready, redirect);
+  // console.log("user: ", user, ready, redirect);
 
   let fingerPrint = "";
 
@@ -50,9 +50,9 @@ const Dashboard = () => {
       message.error("Please enter a query");
       return;
     }
-    console.log("userId: ", userId);
-    console.log("query: ", query);
-    console.log("fingerPrint: ", fingerPrint);
+    // console.log("userId: ", userId);
+    // console.log("query: ", query);
+    // console.log("fingerPrint: ", fingerPrint);
 
     setLoading(true);
     try {
@@ -61,7 +61,7 @@ const Dashboard = () => {
       }
       socket.emit("Bsearch", { userId, query, fingerPrint });
       socket.on("Bsearchres", (data: any) => {
-        console.log("data: ", data);
+        // console.log("data: ", data);
         setResults(data);
         setLoading(false);
       });
@@ -75,9 +75,9 @@ const Dashboard = () => {
       message.error("Please enter a query");
       return;
     }
-    console.log("userId: ", userId);
-    console.log("query: ", query);
-    console.log("fingerPrint: ", fingerPrint);
+    // console.log("userId: ", userId);
+    // console.log("query: ", query);
+    // console.log("fingerPrint: ", fingerPrint);
     setLoading(true);
     try {
        if (!socket) {
@@ -89,7 +89,11 @@ const Dashboard = () => {
         setResults(data);
         setLoading(false);
       });
-    } catch (error) {
+    } catch (error:any) {
+      if (error.response.status < 500) {
+        setUser(null);
+        // router.push("/login");
+      }
       console.error("Error: ", error);
       setLoading(false);
     }

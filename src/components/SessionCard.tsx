@@ -32,7 +32,7 @@ const SessionCard = ({ session, setActiveSessions, activeSessions,current }: any
           (session: any) => session._id !== terminateSession.data.sessionDoc._id
         )
       );
-      console.log(terminateSession.data);
+      // console.log(terminateSession.data);
       message.success("Session terminated successfully");
     } catch (error) {
       console.error("Error: ", error);
@@ -51,7 +51,7 @@ const SessionCard = ({ session, setActiveSessions, activeSessions,current }: any
       </div>
       <div className="flex gap-2">
         <h3 className="text-base">
-          <span className="font-bold">{user.username}</span> was Logged in on{" "}
+          <span className="font-bold">{user?.username}</span> was Logged in on{" "}
           {session.ua.os.name}.
         </h3>
         <h4 className="text-gray-400">{session.userId}</h4>

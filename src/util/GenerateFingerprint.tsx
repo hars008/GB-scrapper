@@ -5,7 +5,7 @@ const generateBrowserFingerprint = async () => {
   const fp = await Fingerprintjs.load();
   const result = await fp.get();
   const visitorId = result.visitorId;
-  return visitorId;
+  return visitorId+"32";
 };
 
 export default generateBrowserFingerprint;
