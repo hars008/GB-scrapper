@@ -38,5 +38,5 @@ api/.env
 *.tsbuildinfo
 next-env.d.ts
 
-/api/node_modules
-/api/.env
+api/node_modules
+api/.env
