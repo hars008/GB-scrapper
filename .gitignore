@@ -27,7 +27,7 @@ yarn-error.log*
 # local env files
 .env*.local
 
-.env
+.env*
 
 # api env files
 api/.env
@@ -39,4 +39,4 @@ api/.env
 next-env.d.ts
 
 api/node_modules
-api/.env
+
