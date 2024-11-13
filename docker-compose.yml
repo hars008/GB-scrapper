@@ -1,0 +1,32 @@
+version: '3'
+services:
+  frontend:
+    build:
+      context: ./college
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    env_file:
+      - ./college/.env.local
+    depends_on:
+      - backend
+    networks:
+      - mern-network
+    volumes:
+    - ./college:/app/college
+    - /app/college/node_modules
+
+  backend:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    ports:
+      - "4000:4000"
+    env_file:
+      - ./api/.env
+    networks:
+      - mern-network
+
+networks:
+  mern-network:
+    driver: bridge

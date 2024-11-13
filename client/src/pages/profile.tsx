@@ -50,7 +50,7 @@ const Profile = () => {
   };
   return (
     <div>
-      <h1>Profile</h1>
+      <h1>Sessions</h1>
       <div>
         <h2 className="font-bold text-xl">Active Sessions</h2>
         <div className="gap-3 flex flex-col">

@@ -43,7 +43,7 @@ export default function App({ Component, pageProps }: AppProps) {
               </div>
             </Content>
             <Footer style={{ textAlign: "center" }}>
-              Scrapper ©2023 Created by Harsh
+              GB Scrapper ©2023 Created by Harsh
             </Footer>
           </Layout>
         </Layout>

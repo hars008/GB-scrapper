@@ -53,7 +53,7 @@ const PageHeader = () => {
       icon = <HistoryOutlined />;
       break;
     case "/profile":
-      title = "Profile";
+      title = "Sessions";
       icon = <UserOutlined />;
       break;
     case "/login":
@@ -79,7 +79,7 @@ const PageHeader = () => {
       icon: <UserOutlined />,
       label: (
         <Link className="" href={"/profile"}>
-          My Profile
+          Sessions
         </Link>
       ),
     },
@@ -118,7 +118,7 @@ const PageHeader = () => {
       <div className="flex px-2 mt-4 justify-between items-center ">
         <div className="flex items-center justify-center sm:text-xl text-base font-bold gap-2 ">
           <Navbar />
-          <h2 className="w-fit  ">Scrapper</h2>
+          <h2 className="w-fit  ">GB Scrapper</h2>
         </div>
         <div className="flex items-center justify-center sm:text-xl text-base font-bold gap-2 ">
           {icon}

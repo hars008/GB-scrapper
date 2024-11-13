@@ -19,7 +19,7 @@ async function scrapeGoogle(searchQuery, depth) {
         ? request.continue()
         : request.abort();
     });
-    await delay(15000);
+    await delay(1500);
     await page.goto(`https://www.google.com/search?q=${searchQuery}&num=10`, {
       waitUntil: "domcontentloaded",
     });

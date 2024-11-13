@@ -113,6 +113,11 @@ app.post("/csrf-token", function (req, res) {
     });
 });
 
+app.get("/", (req, res) => {
+  res.send("Hello World");
+}
+);
+
 app.use("/authentication", csrfProtection, authRouter);
 
 app.use("/internalScrapping", internalScrappingRouter);

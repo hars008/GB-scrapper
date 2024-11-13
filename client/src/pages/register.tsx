@@ -25,6 +25,7 @@ const RegisterPage: React.FC<RegisterPageProps> = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [OTP, setOTP] = useState("");
+  const [otpLoading, setOtpLoading] = useState(false);
   const [redirect, setRedirect] = useState(false);
   const [passwordError, setPasswordError] = useState("");
   const [confirmPasswordError, setConfirmPasswordError] = useState("");
@@ -64,11 +65,11 @@ const RegisterPage: React.FC<RegisterPageProps> = () => {
 
         message.success("Registration successful!");
         setRedirect(true);
-      } catch (error) {
+      } catch (error: any) {
         console.log(error);
-        message.error("Registration failed! Please try again.");
+        message.error("Registration failed! " + error.response.data);
       }
-    } catch (error) {
+    } catch (error: any) {
       console.log(error);
       message.error("Registration failed! Please try again.");
     } finally {
@@ -79,8 +80,11 @@ const RegisterPage: React.FC<RegisterPageProps> = () => {
   const sendOtp = async (e: FormEvent) => {
 
     e.preventDefault();
+    if(otpLoading) return;
+    setOtpLoading(true);
     if(!email){
       message.error("Please enter email");
+      setOtpLoading(false);
       return;
     }
     try{
@@ -89,9 +93,13 @@ const RegisterPage: React.FC<RegisterPageProps> = () => {
       });
       // console.log(response);
       message.success("OTP sent successfully!");
+
     }
     catch(error){
-      message.error("OTP failed to send! Please try again.");
+      message.error("OTP sending failed! Please try again.");
+    }
+    finally{
+      setOtpLoading(false);
     }
   }
   const handleValidation = () => {
@@ -211,7 +219,7 @@ const RegisterPage: React.FC<RegisterPageProps> = () => {
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full mt-2"
           onClick={sendOtp}
           >
-          Send OTP
+          {otpLoading ? "Sending..." : "Send OTP"}
           </button>
           </div>
 

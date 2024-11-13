@@ -37,7 +37,7 @@ const Navbar = () => {
     user
       ? { key: "/history", icon: <HistoryOutlined />, label: "History" }
       : null,
-    user ? { key: "/profile", icon: <UserOutlined />, label: "Profile" } : null,
+    user ? { key: "/profile", icon: <UserOutlined />, label: "Sessions" } : null,
     {
       key: user ? "logout" : "/login",
       icon: user ? <PoweroffOutlined /> : <LoginOutlined />,

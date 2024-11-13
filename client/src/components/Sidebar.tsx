@@ -69,7 +69,7 @@ const Sidebar = () => {
     user
       ? { key: "/history", icon: <HistoryOutlined />, label: "History" }
       : null,
-    user ? { key: "/profile", icon: <UserOutlined />, label: "Profile" } : null,
+    user ? { key: "/profile", icon: <UserOutlined />, label: "Sessions" } : null,
     {
       key: user ? "logout" : "/login",
       icon: user ? <PoweroffOutlined /> : <LoginOutlined />,
@@ -123,7 +123,7 @@ const Sidebar = () => {
           </div>
           {!collapsed && (
             <h1 className="text-white text-xl font-bold text-center lg:grid">
-              Scrapper
+              GB Scrapper
             </h1>
           )}
         </div>

@@ -29,7 +29,7 @@ export default function Home() {
       <Carousel autoplay className="border">
         <div className="">
           <Image
-            src="/images/banner/1.jpg"
+            src="/images/banner/12.svg"
             alt="Picture of the author"
             width={500}
             height={500}
@@ -39,7 +39,7 @@ export default function Home() {
         </div>
         <div>
           <Image
-            src="/images/banner/2.webp"
+            src="/images/banner/3.svg"
             alt="Picture of the author"
             width={500}
             height={500}
@@ -49,7 +49,7 @@ export default function Home() {
         </div>
         <div>
           <Image
-            src="/images/banner/3.jpeg"
+            src="/images/banner/1.svg"
             alt="Picture of the author"
             width={500}
             height={500}
